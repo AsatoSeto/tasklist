@@ -20,6 +20,7 @@ class CreateTasksTable extends Migration
             $table->string('Username');
             $table->dateTime('leftdate');
             $table->timestamps();
+            $table->boolean('checkers');
         });
     }
 

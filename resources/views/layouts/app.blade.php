@@ -39,42 +39,6 @@
             }
             return i;
         }
-
-
-
-        function notifyMe() {
-            // Давайте проверим, поддерживает ли браузер уведомления
-            if (!("Notification" in window)) {
-                alert("Ваш браузер не поддерживает HTML5 Notifications");
-            }
-            // Теперь давайте проверим есть ли у нас разрешение для отображения уведомления
-            else if (Notification.permission === "granted") {
-                // Если все в порядке, то создадим уведомление
-                var notification = new Notification('Уведомление HTML5', {
-                    lang: 'ru-RU',
-                    body: 'Здесь какой-то контент уведомления...',
-                    icon: 'http://lorempixel.com/output/sports-q-c-100-100-9.jpg'
-                });
-            }
-            // В противном случае, мы должны спросить у пользователя разрешение
-            else if (Notification.permission === 'default') {
-                Notification.requestPermission(function (permission) {
-
-                    // Не зависимо от ответа, сохраняем его в настройках
-                    if(!('permission' in Notification)) {
-                        Notification.permission = permission;
-                    }
-                    // Если разрешение получено, то создадим уведомление
-                    if (permission === "granted") {
-                        var notification = new Notification('Уведомление HTML5', {
-                            lang: 'ru-RU',
-                            body: 'Здесь какой-то контент уведомления...',
-                            icon: 'http://lorempixel.com/output/sports-q-c-100-100-9.jpg'
-                        });
-                    }
-                });
-            }
-        }
     </script>
 </head>
 
@@ -125,7 +89,10 @@
     </nav>
 
     <main class="py-4">
+
         @yield('content')
+
+
     </main>
 </div>
 </body>

@@ -1,12 +1,18 @@
 <?php
 use Carbon\Carbon;
-$dates = Carbon::now();?>
-@extends('layouts.app')
+$dates = Carbon::now();
+?>
 
+@extends('layouts.app')
 @section('content')
+    <script type="text/javascript">
+        function reload_content() {
+            location.reload();
+        }
+        setInterval("reload_content()",1800000);
+    </script>
     <div class="container">
-        <button onclick="notifyMe()">Показать уведомление</button>
-        <div class= "col-md-auto">
+        <div class= "col-sm-auto">
             <div class= "panel panel-default">
                 @if(Auth::check())
                     <div class= "panel-heading">
@@ -60,78 +66,16 @@ $dates = Carbon::now();?>
                                 <tr>
                                     @if($task->userid == Auth::id() or Auth::user()->name == 'Administrator')
                                         @if($raznica_chas>3600)
-                                            <td class="table-text">
-                                                <div>{{ $task->name }}</div>
-                                            </td>
-                                            <td>
-                                                <div>Создана: {{$task->created_at->timezone('Europe/Moscow')->format('H:i:s d.m.Y')}}</div>
-                                            </td>
-                                            <td>
-                                                <div>Добавил: {{$task->Username}}</div>
-                                                <div>Выполнить до: {{Carbon::parse($task->leftdate)->timezone('Europe/Moscow')->format('H:i:s d.m.Y')}}</div>
-                                            </td>
-                                            <!-- Task Delete Button -->
-                                            <td>
-                                                <form action="{{ url('task/'.$task->id) }}" method="POST">
-                                                    {{ csrf_field() }}
-                                                    {{ method_field('DELETE') }}
-                                                    <button type="submit" class="btn btn-danger">
-                                                        <i class="fa fa-btn fa-trash"></i>Delete
-                                                    </button>
-                                                </form>
-                                            </td>
+                                            @include('layouts.moduls.plit_table')
                                         @endif
+
                                         @if($raznica_chas <= 3600 and $raznica_chas > 0)
-                                            <?php
-
-                                               echo '<script type="text/javascript">notifyMe();</script>';
-                                                ?>
-                                            <td class="table-text table-warning">
-                                                <div>{{ $task->name }}</div>
-                                            </td>
-                                            <td class="table-text table-warning">
-                                                <div>Создана: {{$task->created_at->timezone('Europe/Moscow')->format('H:i:s d.m.Y')}}</div>
-                                            </td>
-                                            <td class="table-text table-warning">
-                                                <div>Добавил: {{$task->Username}}</div>
-                                                <div>Выполнить до: {{Carbon::parse($task->leftdate)->timezone('Europe/Moscow')->format('H:i:s d.m.Y')}}</div>
-                                                <div>Осталось менее часа</div>
-                                            </td>
-                                            <!-- Task Delete Button -->
-                                            <td class="table-text table-warning">
-                                                <form action="{{ url('task/'.$task->id) }}" method="POST">
-                                                    {{ csrf_field() }}
-                                                    {{ method_field('DELETE') }}
-
-                                                    <button type="submit" class="btn btn-danger">
-                                                        <i class="fa fa-btn fa-trash"></i>Delete
-                                                    </button>
-                                                </form>
-                                            </td>
+                                            @include('layouts.moduls.Notificator')
+                                            @include('layouts.moduls.plit_table_warning')
                                         @endif
-                                        @if($raznica_chas<=0)
-                                            <td class="table-text table-danger">
-                                                <div>{{ $task->name }}</div>
-                                            </td>
-                                            <td class="table-text table-danger">
-                                                <div>Создана: {{$task->created_at->timezone('Europe/Moscow')->format('H:i:s d.m.Y')}}</div>
-                                            </td>
-                                            <td class="table-text table-danger">
-                                                <div>Добавил: {{$task->Username}}</div>
-                                                <div>Выполнить до: {{Carbon::parse($task->leftdate)->timezone('Europe/Moscow')->format('H:i:s d.m.Y')}}</div>
-                                                <div>Время истекло</div>
-                                            </td>
-                                            <!-- Task Delete Button -->
-                                            <td class="table-text table-danger">
-                                                <form action="{{ url('task/'.$task->id) }}" method="POST">
-                                                    {{ csrf_field() }}
-                                                    {{ method_field('DELETE') }}
 
-                                                    <button type="submit" class="btn btn-danger">
-                                                        <i class="fa fa-btn fa-trash"></i>Delete
-                                                    </button>
-                                                </form>
-                                            </td>
+                                        @if($raznica_chas<=0)
+                                            @include('layouts.moduls.plit_table_bad')
                                         @endif
                                     @endif
                                 </tr>
@@ -145,3 +89,6 @@ $dates = Carbon::now();?>
         </div>
     </div>
 @endsection
+
+
+

@@ -24,7 +24,11 @@ Route::group(['middleware' => ['web']], function () {
     /**
      * Add New Task
      */
+
+
+
     Route::post('/task', function (Request $request) {
+        $datasessions = $request->session()->all();
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
         ]);
@@ -46,6 +50,7 @@ Route::group(['middleware' => ['web']], function () {
         $task->name = $request->name;
         $task->Username =Auth::user()->name;
         $task->userid = Auth::id();
+        $task->checkers = '0';
 
         $task->save();
         return redirect('/');
