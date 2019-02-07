@@ -50,7 +50,7 @@ Route::group(['middleware' => ['web']], function () {
         $task->name = $request->name;
         $task->Username =Auth::user()->name;
         $task->userid = Auth::id();
-        $task->checkers = '0';
+
 
         $task->save();
         return redirect('/');

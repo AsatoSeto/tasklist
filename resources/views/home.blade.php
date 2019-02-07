@@ -15,6 +15,9 @@
                     @endif
 
                         You are logged in!
+                       <?php
+                         $redirectTo = '/';
+                        ?>
                 </div>
             </div>
         </div>

@@ -5,12 +5,7 @@ $dates = Carbon::now();
 
 @extends('layouts.app')
 @section('content')
-    <script type="text/javascript">
-        function reload_content() {
-            location.reload();
-        }
-        setInterval("reload_content()",1800000);
-    </script>
+
     <div class="container">
         <div class= "col-sm-auto">
             <div class= "panel panel-default">
@@ -50,45 +45,36 @@ $dates = Carbon::now();
             <!-- Current Tasks -->
             @if (count($tasks) > 0)
                 <div class="panel panel-default">
-                    <div class="panel-body">
-                        <table class="table table-success ">
+                    <div class="panel-body" id="kon">
+                        <table class="table table-success " >
                             <thead class="thead-dark">
                                 <th>Текущие задачи</th>
                                 <th></th>
                                 <th></th>
                                 <th></th>
                             </thead>
-                            <tbody>
-                            @foreach ($tasks as $task)
-                                <?php
-                                    $raznica_chas = Carbon::parse($task->leftdate)->timezone('Europe/London')->timestamp - Carbon::now()->timezone('Europe/London')->timestamp;
-                                ?>
-                                <tr>
-                                    @if($task->userid == Auth::id() or Auth::user()->name == 'Administrator')
-                                        @if($raznica_chas>3600)
-                                            @include('layouts.moduls.plit_table')
-                                        @endif
-
-                                        @if($raznica_chas <= 3600 and $raznica_chas > 0)
-                                            @include('layouts.moduls.Notificator')
-                                            @include('layouts.moduls.plit_table_warning')
-                                        @endif
-
-                                        @if($raznica_chas<=0)
-                                            @include('layouts.moduls.plit_table_bad')
-                                        @endif
-                                    @endif
-                                </tr>
-                            @endforeach
+                            <tbody  >
+                            <div class="table-container">
+                                <div id="cone">
+                                    @include('layouts.moduls.frame')
+                                </div>
+                            </div>
                             </tbody>
                         </table>
                     </div>
+                    <script>
+                        function reload_content() {
+                            $('#kon').load('/ #kon');
+                        }
+                        setInterval("reload_content()",30000);
+                    </script>
                 </div>
             @endif
             @endif
         </div>
     </div>
 @endsection
+
 
 
 
